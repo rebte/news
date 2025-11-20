@@ -33,16 +33,13 @@ export class NewsController {
       if (!query.page) {
         query.page = 1;
       }
-      if(query.categories && typeof query.categories === 'string') {
+      if (query.categories && typeof query.categories === 'string') {
         query.categories = query.categories.split(',') as Category[];
       }
 
-      console.log(query.categories)
-      
-
-      const total: number = await this.newsService.getCountOfNews(query); 
+      const total: number = await this.newsService.getCountOfNews(query);
       const news = await this.newsService.getNews(query);
-      
+
       res.status(HttpStatus.OK).json({
         data: news,
         limit: query.limit,
