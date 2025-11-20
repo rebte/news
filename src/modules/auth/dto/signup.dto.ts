@@ -1,5 +1,5 @@
-export class SignupDto {
+export interface SignupDto {
   email: string;
   password: string;
-  nickname: string;
+  username: string;
 }

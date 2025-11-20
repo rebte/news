@@ -16,6 +16,12 @@
     "baseUrl": "./",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@common/*": ["src/common/*"],
+      "@auth/*": ["src/modules/auth/*"],
+      "@users/*": ["src/modules/user/*"],
+      "@news/*": ["src/modules/news/*"]
+    }
   }
 }
