@@ -2,15 +2,19 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/user/user.service';
 import * as bcrypt from 'bcryptjs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private config: ConfigService,
   ) {}
 
   async login(email: string, password: string) {
+    console.log(this.config.get('DATABASE_USER'));
+
     const user = await this.userService.findByEmail(email);
 
     if (!user) throw new UnauthorizedException('User not found');
