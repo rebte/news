@@ -1,0 +1,20 @@
+name: Delete Merged Branch
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  delete_branch:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Delete merged branch
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+          git push origin --delete $BRANCH_NAME
