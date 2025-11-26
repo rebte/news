@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '../src/modules/auth/auth.controller';
 import { AuthService } from '../src/modules/auth/auth.service';
 import { HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
+
 import type { LoginDto } from '../src/modules/auth/dto/login.dto';
 import type { SignupDto } from '../src/modules/auth/dto/signup.dto';
 
