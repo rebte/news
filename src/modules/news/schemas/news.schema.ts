@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Category } from 'libs/news-core/domain/News';
 import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
@@ -7,7 +8,7 @@ export class News extends Document {
   title: string;
 
   @Prop({ type: Types.Array, required: true })
-  categories: Types.Array<Category[]>;
+  categories: Category[];
 
   @Prop({ required: true, maxLength: 100 })
   imgUrl: string;
@@ -35,15 +36,3 @@ NewsSchema.set('toJSON', {
     delete ret._id;
   },
 });
-
-export type Category =
-  | 'general'
-  | 'science'
-  | 'sports'
-  | 'business'
-  | 'health'
-  | 'entertainment'
-  | 'tech'
-  | 'politics'
-  | 'food'
-  | 'travel';

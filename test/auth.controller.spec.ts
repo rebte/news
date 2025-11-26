@@ -73,7 +73,7 @@ describe('AuthController', () => {
       (authService.login as jest.Mock).mockRejectedValue(
         new UnauthorizedException('Wrong password'),
       );
-      
+
       await controller.login(mockLoginDto, res);
 
       expect(res.status).toHaveBeenCalledWith(HttpStatus.BAD_GATEWAY);

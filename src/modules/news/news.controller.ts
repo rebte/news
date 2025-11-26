@@ -15,14 +15,17 @@ import type { Response } from 'express';
 import { JwtAuthGuard } from '@common/guards/auth.guard';
 import type { UserPayload } from '@common/strategys/jwt.strategy';
 import { GetUser } from '@common/decorators/get-user.decorator';
-import type { CreateNewsDto } from '@news/dto/create-news.dto';
-import { NewsServices } from '@news/news.service';
-import { Category } from './schemas/news.schema';
+import { NewsService } from 'libs/news-core/application/NewsService';
+import type {
+  Category,
+  CreateNewsDto,
+  GetQuery,
+} from 'libs/news-core/domain/News';
 
 @UseGuards(JwtAuthGuard)
 @Controller('news')
 export class NewsController {
-  constructor(private newsService: NewsServices) {}
+  constructor(private newsService: NewsService) {}
 
   @Get()
   async news(@Res() res: Response, @Query() query: GetQuery) {
@@ -37,7 +40,7 @@ export class NewsController {
         query.categories = query.categories.split(',') as Category[];
       }
 
-      const total: number = await this.newsService.getCountOfNews(query);
+      const total: number = await this.newsService.getCount(query);
       const news = await this.newsService.getNews(query);
 
       res.status(HttpStatus.OK).json({
@@ -54,20 +57,16 @@ export class NewsController {
 
   @Post()
   async createNews(
-    @Body() { title, categories, imgUrl, description, content }: CreateNewsDto,
+    @Body() newsData: CreateNewsDto,
     @GetUser() user: UserPayload,
     @Res() res: Response,
   ) {
     try {
-      const news = await this.newsService.createNews(
-        title,
-        categories,
-        imgUrl,
-        description,
-        content,
-        user.userId,
-        user.username,
-      );
+      const news = await this.newsService.createNews({
+        ...newsData,
+        authorId: user.userId,
+        authorUsername: user.username,
+      });
 
       res.status(HttpStatus.OK).json({ data: news, message: 'OK' });
     } catch (e) {
@@ -110,13 +109,4 @@ export class NewsController {
       res.status(HttpStatus.BAD_GATEWAY).json({ message: 'BAD_GATEWAY' });
     }
   }
-}
-
-export interface GetQuery {
-  categories?: Category[] | string;
-  author?: string;
-  createdFrom?: string;
-  createdTo?: string;
-  limit: number;
-  page: number;
 }

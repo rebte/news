@@ -104,7 +104,7 @@ describe('AuthService', () => {
         username,
         password: 'newHashedPassword',
       };
-      
+
       (userService.createUser as jest.Mock).mockResolvedValue(newUserMock);
       (jwtService.sign as jest.Mock).mockReturnValue('newValidToken');
 
