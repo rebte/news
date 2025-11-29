@@ -61,6 +61,9 @@ Put
 
 Ця Mermaid-діаграма описує, як класи та модулі взаємодіють у нашому коді:
 
+<img width="1351" height="841" alt="image" src="https://github.com/user-attachments/assets/612c2fad-de24-4eb2-ad63-0e1f4d71666a" />
+
+
 ### 1. Взаємодія всередині AuthModule
 
 - **`AuthController` (Контролер) залежить від `AuthService` (Сервіс):**
